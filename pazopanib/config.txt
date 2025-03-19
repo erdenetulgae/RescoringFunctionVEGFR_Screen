@@ -1,0 +1,14 @@
+receptor = VEGFR2.pdbqt
+ligand = pazopanib.pdbqt
+
+center_x = 1.234	
+center_y = -7.916
+center_z = 16.196
+
+size_x = 24
+size_y = 24
+size_z = 24
+
+out = all.pdbqt
+log = vina.log
+num_modes = 30
