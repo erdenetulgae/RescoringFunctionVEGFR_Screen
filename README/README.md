@@ -1,3 +1,40 @@
+# Rescoring Docking Poses
+
+## Overview
+
+This project evaluates and rescoring docking poses generated using AutoDock Vina based on three key criteria:
+
+1. Binding Affinity (VINA score)
+2. Hydrogen Bonding (stabilization potential)
+3. Pose Clustering (consistency of similar poses)
+
+Each criterion is normalized, and a final composite score is computed, with binding affinity given the highest weight, followed by H-bonding and clustering.
+
+
+## Justification for Scoring Criteria
+
+Binding Affinity: Prioritized as it directly represents the ligand’s predicted binding strength to the target. Lower binding energy suggests a more stable and favorable interaction.
+
+H-Bonding: Ligands forming more hydrogen bonds are often more stable, as H-bonds contribute significantly to specificity and affinity.
+
+Pose Clustering: A pose that appears frequently in clustering is likely more reliable, as it suggests a preferred binding mode.
+Methodology
+
+Normalization: Each score was normalized within its dataset (0 to 1 scale).
+
+Rescoring: Final scores were computed using a weighted approach prioritizing affinity at 50% weight, H-bonding at 30% weight and clustering at 20%.
+
+Analysis: Results were compared with published crystal structures to assess accuracy.
+
+## Discussion & Limitations:
+
+Comparison with Published Structures: The top poses were analyzed against experimental structures to evaluate deviations.
+
+Potential Deviations: Differences may arise due to protein flexibility, solvent effects, or limitations in docking algorithms.
+
+Clustering Reliability: Some ligands showed low clustering scores, suggesting binding promiscuity or scoring inaccuracies.
+
+
 ```python
 import numpy as np
 import pandas as pd
@@ -230,7 +267,7 @@ for ligand, df in vina_dfs.items():
 
 
     
-![png](output_1_1.png)
+![png](output_2_1.png)
     
 
 
@@ -241,7 +278,7 @@ for ligand, df in vina_dfs.items():
 
 
     
-![png](output_1_3.png)
+![png](output_2_3.png)
     
 
 
@@ -252,7 +289,7 @@ for ligand, df in vina_dfs.items():
 
 
     
-![png](output_1_5.png)
+![png](output_2_5.png)
     
 
 
@@ -263,7 +300,7 @@ for ligand, df in vina_dfs.items():
 
 
     
-![png](output_1_7.png)
+![png](output_2_7.png)
     
 
 
@@ -274,7 +311,7 @@ for ligand, df in vina_dfs.items():
 
 
     
-![png](output_1_9.png)
+![png](output_2_9.png)
     
 
 
@@ -285,7 +322,7 @@ for ligand, df in vina_dfs.items():
 
 
     
-![png](output_1_11.png)
+![png](output_2_11.png)
     
 
 
@@ -441,11 +478,11 @@ for ligand, df in vina_dfs.items():
 
 
 ```python
-with pd.ExcelWriter("docking_results.xlsx") as writer:
+with pd.ExcelWriter("rescoring_results.xlsx") as writer:
     for ligand, df in vina_dfs.items():
         df.to_excel(writer, sheet_name=ligand, index=False)
 
-print("✅ Docking results saved to docking_results.xlsx")
+print("✅ Docking results saved to rescoring_results.xlsx")
 ```
 
     ✅ Docking results saved to docking_results.xlsx
